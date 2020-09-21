@@ -1,0 +1,1377 @@
+<html>
+<head>
+  <title></title>
+  <script src="three.js"></script>
+<!--  <link href="style.css" rel="stylesheet"/>-->
+  <style type="text/css"></style>
+  <style type="text/css">
+    .mask-box {
+      -webkit-transition: all 0ms ease;
+      -o-transition: 0ms all ease;
+      transition: all 0ms ease;
+      -webkit-transition-duration: 0ms;
+      -o-transition-duration: 0ms;
+      transition-duration: 0ms;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 35.4%;
+      height: 0;
+      padding: 35.4% 0 0;
+      border-radius: 50%;
+      margin-left: -17.57%;
+      margin-top: -17.57%;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      color: #fff;
+    }
+
+    @media screen and (max-width: 996px) {
+      html .mask-box {
+        border-radius: 50%;
+        padding: 0;
+        margin-left: -4rem;
+        top: 3.2rem;
+        margin-top: 0
+      }
+
+      .globel-box .globel-mask-box {
+        padding-top: 0;
+        margin-top: -1rem;
+        margin-left: 0;
+        left: 0
+      }
+
+      .globel-box.mid-screen .logo-desc {
+        top: 11.2rem
+      }
+
+      .globel-box.mini-screen .globel-mask-box {
+        -webkit-transition: all .8s ease-in-out;
+        -o-transition: all .8s ease-in-out;
+        transition: all .8s ease-in-out
+      }
+
+      .globel-box.mini-screen .globel-mask-box.mini-size-active {
+        -webkit-transform: scale(.7) translateY(-10vh);
+        -ms-transform: scale(.7) translateY(-10vh);
+        transform: scale(.7) translateY(-10vh)
+      }
+
+      .globel-box.mini-screen .logo-desc {
+        top: 67%
+      }
+
+      .globel-box.mini-screen .logo-desc .desc-container .empty-line {
+        height: 8vw
+      }
+
+      .globel-box.mini-screen .logo-desc .desc-container .logo-container .logo-line .logo {
+        width: 8vw;
+        height: 8vw
+      }
+
+      .globel-box img.rorate {
+        top: 13rem
+      }
+
+      .server-place-app {
+        color: #b7b7b7;
+        text-align: center;
+        position: absolute;
+        top: calc(12.58rem - 24px);
+        width: 100%;
+        z-index: 2
+      }
+
+      .server-place-app.mid-screen {
+        top: calc(11.2rem - 6px)
+      }
+
+      .server-place-app.mini-screen {
+        top: 11.2rem
+      }
+
+      .server-place-app.mini-screen.mini-size-active {
+        top: 63%
+      }
+
+      .server-place-app .country {
+        margin-right: 10px;
+        color: #b7b7b7
+      }
+    }
+
+    .homepage-map {
+      background: #fff;
+      padding: 80px 10.52% 100px;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box
+    }
+
+    .homepage-map .homepage-map-content {
+      width: 100%;
+      height: auto
+    }
+
+    .homepage-map.isEarth {
+      background: url(../../assets/earth-bg.jpg) 50% no-repeat;
+      background-size: cover
+    }
+
+    @media screen and (min-width: 1919px) {
+      .homepage-map .homepage-map-content .module-tit {
+        font-size: 38px
+      }
+
+      .homepage-map .homepage-map-content .module-tit .sub-titles {
+        font-size: 26px
+      }
+    }
+
+    @media screen and (max-width: 996px) {
+      .homepage-map {
+        padding: 1.59rem 0 0
+      }
+
+      .homepage-map .homepage-map-content {
+        height: 100%
+      }
+
+      .homepage-map .homepage-map-content .module-label.inter-label {
+        display: block;
+        left: 0;
+        bottom: 2.01rem;
+        font-size: 1.31rem;
+        margin-top: .4rem;
+        padding-left: 5%;
+        width: 600px;
+        height: 84px;
+        background: url(data:image/png;base64,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) no-repeat;
+        position: absolute;
+        background-size: 74%;
+        bottom: 11.8%;
+        z-index: -1
+      }
+    }
+
+    .globel-box {
+      overflow: hidden
+    }
+
+    .globel-box .link {
+      color: #1190ea
+    }
+
+    .globel-box .link:hover {
+      cursor: pointer;
+      text-decoration: underline
+    }
+
+    .globel-box .earth-shadow {
+      width: 100%;
+      height: 100px;
+      background: url(../../assets/earth-shadow.png) 50% no-repeat;
+      position: absolute;
+      top: 90%
+    }
+
+    .globel-box .earth-inner-shadow {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: url(../../assets/earth-inner-shadow.png) 50% no-repeat;
+      z-index: 1;
+      background-size: 76%;
+      pointer-events: none
+    }
+
+    .globel-box .globel-mask-box {
+      width: 45.4%;
+      padding-top: 45.4%;
+      margin-top: -22.7%;
+      margin-left: -22.7%
+    }
+
+    .globel-box .globel-mask-box #container {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0
+    }
+
+    .globel-box .globel-mask-box .globe-float {
+      width: 6.09%;
+      height: 6.09%;
+      position: absolute;
+      display: inline-block;
+      z-index: 10
+    }
+
+    .globel-box .globel-mask-box .globe-float .float-block {
+      -webkit-transition: height .5s, opacity .5s;
+      -o-transition: height .5s, opacity .5s;
+      transition: height .5s, opacity .5s;
+      height: 0;
+      overflow: hidden;
+      position: absolute;
+      width: 205px;
+      color: #666;
+      left: -211px;
+      text-align: right;
+      line-height: 18px;
+      padding-top: 10px;
+      opacity: 0;
+      border: none
+    }
+
+    .globel-box .globel-mask-box .globe-float .float-block:before {
+      content: " ";
+      display: inline-block;
+      position: absolute;
+      right: 0;
+      top: 0;
+      border-top: 3px solid #525252;
+      width: 30px
+    }
+
+    .globel-box .globel-mask-box .globe-float .show.float-block {
+      -webkit-transition: height .5s, opacity .5s;
+      -o-transition: height .5s, opacity .5s;
+      transition: height .5s, opacity .5s;
+      padding-top: 10px;
+      border-top: 1px solid #525252;
+      height: 50px;
+      opacity: 1
+    }
+
+    .globel-box .globel-mask-box .globe-float.right-float .float-block {
+      left: 56px;
+      text-align: left
+    }
+
+    .globel-box .globel-mask-box .globe-float.right-float .float-block:before {
+      left: 0
+    }
+
+    .globel-box .pc-logo-desc {
+      position: absolute;
+      left: 80%;
+      top: 45%;
+      width: 0;
+      height: 0;
+      opacity: 0;
+      border-radius: 50%;
+      border: 1px solid #ff7e41;
+      background-color: #ff7e41;
+      z-index: 1
+    }
+
+    .globel-box .pc-logo-desc.America {
+      left: 72%;
+      top: 35%
+    }
+
+    .globel-box .pc-logo-desc > div:first-child {
+      margin-top: 50%;
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%)
+    }
+
+    .globel-box .pc-logo-desc .logo-box {
+      text-align: center
+    }
+
+    .globel-box .pc-logo-desc .logo-box.australia, .globel-box .pc-logo-desc .logo-box.b99, .globel-box .pc-logo-desc .logo-box.didiChina, .globel-box .pc-logo-desc .logo-box.japan, .globel-box .pc-logo-desc .logo-box.mexico {
+      width: 56px;
+      margin: 0 auto;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box
+    }
+
+    .globel-box .pc-logo-desc .logo-box i {
+      margin: 8px 0
+    }
+
+    .globel-box .pc-logo-desc .australia-box, .globel-box .pc-logo-desc .b99-box, .globel-box .pc-logo-desc .careen-box, .globel-box .pc-logo-desc .didiChina-box, .globel-box .pc-logo-desc .grad-box, .globel-box .pc-logo-desc .japan-box, .globel-box .pc-logo-desc .mexico-box, .globel-box .pc-logo-desc .ola-box, .globel-box .pc-logo-desc .taxify-box {
+      width: 80%;
+      color: #fff;
+      line-height: 1.5;
+      margin: auto;
+      text-align: center
+    }
+
+    .globel-box .pc-logo-desc .didiChina-box {
+      width: 85%
+    }
+
+    .globel-box .pc-logo-desc .logo-container {
+      position: absolute;
+      padding: 0 12%
+    }
+
+    .globel-box .pc-logo-desc .logo-container > div {
+      width: 100%;
+      height: 100%;
+      position: relative
+    }
+
+    .globel-box .pc-logo-desc .logo-line {
+      width: 100%;
+      height: 50px;
+      margin: 10px auto;
+      position: relative;
+      font-size: 12px;
+      line-height: 1.3;
+      text-align: center
+    }
+
+    .globel-box .pc-logo-desc .logo {
+      font-size: 21px
+    }
+
+    .globel-box .pc-logo-desc .logo.grad {
+      display: block;
+      font-family: Aspira Bold;
+      font-weight: 500
+    }
+
+    .globel-box .pc-logo-desc .logo.careen, .globel-box .pc-logo-desc .logo.ola {
+      display: block;
+      text-align: center;
+      font-family: Aspira Bold;
+      font-weight: 450
+    }
+
+    .globel-box .pc-logo-desc .logo.b99, .globel-box .pc-logo-desc .logo.taxify {
+      display: block;
+      font-family: Aspira Bold;
+      font-weight: 450
+    }
+
+    .globel-box .pc-logo-desc .logo.australia, .globel-box .pc-logo-desc .logo.didiChina, .globel-box .pc-logo-desc .logo.japan, .globel-box .pc-logo-desc .logo.mexico {
+      display: block;
+      padding-bottom: 100%;
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACcAAAAgCAYAAACRpmGNAAAAAXNSR0IArs4c6QAAAi1JREFUWAntl8ErRFEUxucNSiw0iCgJxVJKSmo2/gELJUqxs56lbCglRfkLxNbCVqEUyoaVjURIY0FSNgxm/E5N07wZ79z37nvFwqmv9979zvfdc+/cd++bWC6XmwSP4DdiJaZEHG4VNCo5v0ZJcX+yMJkRKe7Pxn9xtj9NpQ9hhpysjzybFNkhqj2E2Zhh/1iCdzzEoZvxTin975rW3LHjOLnQVVgamIqztI1G9l+c7TyaZq7C1tinTu1fyDfFqFXhoqAaFJM3Ke5OSWhTuCgobfAPpuIGoqhA8ehVuLQUd6skJNkk6xXemsK3HbGxuBOlBznexhU+DDVhEJ/J8VUPMsAr0hA1BqNANH4J8OzVIe33wIlzPD3jvK+4t8DNKbwNtYgooQi3CscmVU4ooxAqC0YUM98UPtNiqIT01Vcw5CEOThWBUK9guCCyuEE/Bt6BFhtl1mQPaYo898F1pkxsaEBTBRbyHtpFJkCWUXlAbGrKIu6Y+8FyB3cLOfKLjIAL4CdSxQ6uD0nUtZAHoL84Sbk/h9sGRyANHoHs+l0gCUbBzzMBURIbvARTJW3uRwpsAtd+hhlhzh5eVe5KPJ5I7AE3EXauWUlhdR6l/NyMQDbnHc01Am4ZD7vPMoSyoOeBdoJAB44HFLIewwdGHWAdfIIw8YJ4FsiLF21gKmtxDVwBv/FF4iGQv4GBvnBcW0mQodBRN/lyYnSCZtAEpPMncJ/HJdc9tgjZYgLHN3A11X7Ra/jsAAAAAElFTkSuQmCC) 50% no-repeat
+    }
+
+    .globel-box .pc-logo-desc .logo.b99 {
+      padding-bottom: 100%;
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADcAAAAmCAYAAABgUQN4AAAAAXNSR0IArs4c6QAABS5JREFUaAW1mVuIVVUYx/cZb2kOWo6lU6Z2oYtUg1FE2VTPFhZqKUIUpWSoaFEZ+VAW6UMEvfRUwuhD+RAqRpFMRgSKIGUXkqLJS5mW91Ezdc7Z/f5nzrJ9ZtZZl7PPfPA/a+/1/b/vv9bea6+19j6FJMDSNB0E7TpwK7gKjASnwB/gB/BboVAoUTbM0JxIsjYwFlwOpHcY/Ai60LtAWb8hMAG8AraDM8Bmp6mU/0Uwvn61JCH+MvAc2ApOApupHTvBcjApWo+gIWAp+BPE2O+Q1Tjd6SgjZh74BcTYIci6+JcEiUEcV0pLm2MULNz11I0JEYQ3Aqyx5Iip+gKyhnFtg9AKdsRkdXC/wtdSW608DNWxDY4cMa5dkK+x6uEYDjpjsgVwN8IZZhOkvilNix0BOWIoevZH9dOjckVMlgjuS/3EqCD+yYgcMdS3q/SIvBEcj8kQwT0Cd3JWkPMxPNf7InLEUDWbaslKmiqi8ylHV45rFedwfARmgrvBLLAe+NY3TSxPgazNLSQF+/PxPyvl8GMwB9wFZoD3wT/AZSNwLi4T6GUz+NVzaXRXH7ZlpH4OOOWJ/wn/cMVT8qylX3v4/+Lve0FMe+/H95cn/iD+sRKbBnoc5BK+hbaOmTr8WsBdpvzabUhvMvBdjJUmt60kfiZwtRl3Ol3D8g7gWnT34l8LXPYBzgMOgvLfVvHr+dP2rZZpi/VeLWelfhPldx7OA+pc+Yo6iN+zjzvj8Cf4j+HXPtNl5hmb5CLh20++Qy4O/h78vs6V79yVrkT4hnj8xq0L5TLjb3aR8A1iSBmuizrY5cR3hZLs8ZDautNu51aKxuhNoWq6t+TUbCvTXXaZ3j6cudDT5HSnKwm+Xerctx5Sa3PSvNTDWYbfudXCv7uSo8uTS3d2uYezAP9NHs6Xmr3awHngsgs4nwdVEw/nw4BePeR32VmcN6gxlOOBFnafvQGharfPeQE8AbRQu0wzfLvI2vvtALdL3GPb8H8CDoIJ4BEwFfhMce1MBEUR0dxM8ZCOPaZRtRHsKyWllqakaTrHD3pi5Naj1tsfxF4GA2nPZhuE0KMDKVZMi29e1EOoBewZIMGfyTv6ohgHnGs4bxsgvcPkNctOrywVc4HGakOtJ+2Zne2YOUakHWib1WhbZDSqSlTeabBSB/kKVSKZE3y+bVtscz4jwL7+4dBwWRObsQa/i/pxmb5YD+G8XiM+tvooAe7lAYJ27StA3iGjV6IgQ2s+OAbyWO9rTogiKveAT0GxDsWOEI0sB42bwYegnovaSZx9OGZFsscEaB28D7wLDoAQ2w+pNZsn5pjYqeAtoFk2xHTHb4nRqOISPBjoQ6jHypPtY1XBdZ4gFPpVzD47huoitNrTK+NeF5rTxeNJWGgSesqt+EPfWvpLEjwNnPOIyK2vzVf3zxBXQ45rQcjeU8NxSlz2DJvgkeAbEGKPZ0LrOkRE73Khw3FJXSImCKFVIb2Cs9bE5CnJsyBEj8+Cn8PLNRzvJYFeVXyWa3Y0FwOR64H2hT7TYp1rdryUBAGzY7kdwYu16UjfkiwajqF/voQv1n2FdI7QynKz/T/roNTcO9py2+rI8bRfqszYwm+u4aidie9NV0p7Qa4/GysXUsPxbyX02An8uWZHfX0OHY6Nmh03eTpl3C/Y7npwHVlCd+jOV5lQQfSeMS33lNo7Dg3Na3h9N5v67NYJ9GeD+YNDz5S+s6hU3XHwKt9D9EdFXjtBgg3AtEM59UVO0LE+SHWD19A7Txll/wEFjIZMEwAjoAAAAABJRU5ErkJggg==) 50% no-repeat
+    }
+
+    .globel-box .pc-logo-desc .logo.didi {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      vertical-align: middle;
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACcAAAAgCAYAAACRpmGNAAAAAXNSR0IArs4c6QAAAi1JREFUWAntl8ErRFEUxucNSiw0iCgJxVJKSmo2/gELJUqxs56lbCglRfkLxNbCVqEUyoaVjURIY0FSNgxm/E5N07wZ79z37nvFwqmv9979zvfdc+/cd++bWC6XmwSP4DdiJaZEHG4VNCo5v0ZJcX+yMJkRKe7Pxn9xtj9NpQ9hhpysjzybFNkhqj2E2Zhh/1iCdzzEoZvxTin975rW3LHjOLnQVVgamIqztI1G9l+c7TyaZq7C1tinTu1fyDfFqFXhoqAaFJM3Ke5OSWhTuCgobfAPpuIGoqhA8ehVuLQUd6skJNkk6xXemsK3HbGxuBOlBznexhU+DDVhEJ/J8VUPMsAr0hA1BqNANH4J8OzVIe33wIlzPD3jvK+4t8DNKbwNtYgooQi3CscmVU4ooxAqC0YUM98UPtNiqIT01Vcw5CEOThWBUK9guCCyuEE/Bt6BFhtl1mQPaYo898F1pkxsaEBTBRbyHtpFJkCWUXlAbGrKIu6Y+8FyB3cLOfKLjIAL4CdSxQ6uD0nUtZAHoL84Sbk/h9sGRyANHoHs+l0gCUbBzzMBURIbvARTJW3uRwpsAtd+hhlhzh5eVe5KPJ5I7AE3EXauWUlhdR6l/NyMQDbnHc01Am4ZD7vPMoSyoOeBdoJAB44HFLIewwdGHWAdfIIw8YJ4FsiLF21gKmtxDVwBv/FF4iGQv4GBvnBcW0mQodBRN/lyYnSCZtAEpPMncJ/HJdc9tgjZYgLHN3A11X7Ra/jsAAAAAElFTkSuQmCC) 50% no-repeat;
+      background-size: 67%
+    }
+
+    .globel-box .pc-logo-desc .logo.lyft, .globel-box .pc-logo-desc .logo.uber {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      vertical-align: middle;
+      text-align: center;
+      font-family: Aspira Bold;
+      font-weight: 450;
+      font-size: 21px
+    }
+
+    .globel-box .pc-logo-desc .desc {
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+      padding-left: 5px;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      color: #fff;
+      line-height: 1.3em
+    }
+
+    .globel-box .pc-logo-desc .desc.didi, .globel-box .pc-logo-desc .desc.lyft, .globel-box .pc-logo-desc .desc.uber {
+      width: calc(100% - 50px);
+      text-align: left;
+      padding: 6px;
+      max-width: 330px
+    }
+
+    .globel-box .pc-logo-desc .see-more {
+      text-align: center;
+      margin-top: 8%;
+      text-decoration: underline
+    }
+
+    .globel-box .pc-logo-desc .see-more:hover {
+      cursor: pointer
+    }
+
+    .globel-box .default-Img img {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin-top: -10%
+    }
+
+    .globel-box .server-place-pc {
+      margin-top: 30px;
+      font-size: 23px;
+      color: #b7b7b7
+    }
+
+    .globel-box .server-place-pc .country {
+      margin-bottom: 10px
+    }
+
+    .globel-box .server-place-pc a {
+      color: #b7b7b7
+    }
+
+    .module-tit {
+      font-size: 26px;
+      line-height: 100%
+    }
+
+    .module-tit .check-more {
+      font-size: 14px
+    }
+
+    .module-tit .check-more img {
+      width: 8px;
+      margin-left: 10px;
+      position: relative;
+      top: -1px
+    }
+
+    .logo-desc, .logo-desc:after {
+      display: none
+    }
+
+    @media screen and (min-width: 1920px) {
+      .globel-box .pc-logo-desc .desc, .globel-box .pc-logo-desc .see-more {
+        font-size: 15px
+      }
+
+      .globel-box .pc-logo-desc .logo {
+        font-size: 23px
+      }
+    }
+
+    @media screen and (min-width: 1440px) and (max-width: 1919px) {
+      .globel-box .pc-logo-desc .desc, .globel-box .pc-logo-desc .see-more {
+        font-size: 14px
+      }
+
+      .globel-box .pc-logo-desc .logo {
+        font-size: 22px
+      }
+    }
+
+    @media screen and (min-width: 1240px) and (max-width: 1439px) {
+      .globel-box .pc-logo-desc .desc, .globel-box .pc-logo-desc .see-more {
+        font-size: 13px
+      }
+    }
+
+  </style>
+
+</head>
+<body>
+<div class="homepage-map isEarth">
+  <div class="homepage-map-content">
+    <div class="module-cont">
+      <div class="mask-box globel-mask-box swiper-no-swiping">
+        <div class="mask-five-content" id="container"
+             style="color: rgb(255, 255, 255); font: 13px / 20px Arial, sans-serif; cursor: auto;">
+          <!--          <canvas></canvas>-->
+          <!--            <canvas width="1148" height="1148" style="width: 574.31px; height: 574.31px; position: absolute;"></canvas>-->
+        </div>
+        <div class="earth-inner-shadow"></div>
+        <div class="earth-shadow"></div>
+        <div class="pc-logo-desc"
+             style="transition: width 0.2s linear 0s, height 0.2s linear 0s, opacity 0.2s linear 0s;"></div>
+      </div>
+    </div>
+    <div class="logo-desc"></div>
+  </div>
+</div>
+<div class="label"></div>
+</div>
+<script>
+  var SCREEN_WIDTH = null;
+  var SCREEN_HEIGHT = null;
+  var scene = null;
+  var mesh = null;
+  var camera = null;
+  var renderer = null;
+  var container = document.getElementById('container')
+  var me = false
+  var mouse = new THREE.Vector2;
+  var pos = {
+    x: 0,
+    y: 0
+  };
+  var rotation = {
+    x: 0,
+    y: 0
+  };
+  var target = {
+    x: 2.1 * Math.PI,
+    y: Math.PI / 4.5
+  };
+  var p = {
+    x: 0,
+    y: 0
+  };
+  var de = false;
+
+  var type = "";
+  var node = "";
+  //网页加载完毕后会被调用
+  function init() {
+    if (window.innerWidth < 960) {
+      SCREEN_WIDTH = width();
+      SCREEN_HEIGHT = width();
+    } else {
+      SCREEN_WIDTH = .454 * window.innerWidth;
+      SCREEN_HEIGHT = .454 * window.innerWidth;
+    }
+    //创建一个场景（场景是一个容器，用于保存、跟踪所要渲染的物体和使用的光源）
+    scene = new THREE.Scene();
+
+    //创建一个摄像机对象
+    camera = new THREE.PerspectiveCamera(30,
+      SCREEN_WIDTH / SCREEN_HEIGHT, 1, 1e4);
+    camera.position.x = 30;
+    camera.position.y = 30;
+    camera.position.z = 30;
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+    scene.add(new THREE.AmbientLight('#C60224'));
+
+    //创建一个WebGL渲染器并设置其大小
+    renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true
+    });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    // renderer.setClearColor(new THREE.Color(0x00000)); //0xc0c0c0
+    // renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+
+    //将渲染的结果输出到指定页面元素中
+    // document.getElementById("WebGL-output").appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
+    container.addEventListener("mousedown", onMouseDown, false);
+    // container.addEventListener("touchstart", start, false);
+    // container.addEventListener("mouseenter", scroll, false);
+    container.addEventListener("mouseleave", onMouseOut, false);
+    container.addEventListener("mousemove", onMouseMove, false);
+    // window.addEventListener("click", check, false);
+    // container.addEventListener("touchend", onMouseWheel, false);
+    container.addEventListener("touchmove", move, false);
+    // window.addEventListener("resize", resize, false);
+
+    drawGlobe()
+    var pos = [ [ 42, 122 ], [ 2, 130 ], [ 13, 156.5 ], [ 24.5, 179 ], [ -24, -77 ], [ 57.5, -149 ], [ 36.1, -6.41 ], [ 25, -25 ], [ -38, 89.5 ], [ 38, 94 ], [ -32, -56 ], [ 5, -52 ], [ 10, -41.6 ] ];
+    let a = 138.68;
+    addLogo(-.494 * a, a, .914 * a, -50, -20, -18);
+    drawCircle(-.494 * a, a, .914 * a, -50, -20, "Beijing");
+    parseNode(-.494 * a, a, .914 * a, -50, -20, "Beijing");
+
+    a = 138.78;
+    create(-.494 * a, a, .914 * a, -50, -20, "Beijing");
+    click([ 40, 120 ], pos[ 1 ], 20, 0, "Singapore");
+
+    a = 6.98;
+    drawCircle(-18.407 * a, a, 21.9366 * a, -5, -40, "Singapore");
+    _init(-18.407 * a, a, 21.9366 * a, -5, -40, "Singapore");
+    parseNode(-18.407 * a, a, 21.9366 * a, -5, -40, "Singapore");
+    a = 7;
+    create(-18.407 * a, a, 21.9366 * a, -5, -40, "Singapore");
+    click([ 42, 122 ], pos[ 2 ], 30, 500, "India");
+
+    a = 45;
+    drawCircle(-3.9722 * a, a, 1.7271 * a, -35, -65, "India");
+    _init(-3.9722 * a, a, 1.7271 * a, -35, -65, "India");
+    parseNode(-3.9722 * a, a, 1.7271 * a, -35, -65, "India");
+
+    a = 45.55;
+    create(-3.9722 * a, a, 1.7271 * a, -35, -65, "India");
+    click([ 42, 122 ], pos[ 3 ], 35, 1e3, "theMiddleEast");
+
+    a = 83;
+    drawCircle(-2.19397 * a, a, .0382956 * a, -81, -65, "theMiddleEast");
+    _init(-2.19397 * a, a, .0382956 * a, -81, -65, "theMiddleEast");
+    parseNode(-2.19397 * a, a, .0382956 * a, -81, -65, "theMiddleEast");
+
+    a = 83.2;
+    create(-2.19397 * a, a, .0382956 * a, -81, -65, "theMiddleEast");
+    reset([ 42.5, 122 ], pos[ 4 ], 1500, "Brazil");
+
+    a = -81.34;
+    drawCircle(-.50524 * a, a, 2.18847 * a, -25, -10, "Brazil");
+    _init(-.50524 * a, a, 2.18847 * a, -25, -10, "Brazil");
+    parseNode(-.50524 * a, a, 2.18847 * a, -25, -10, "Brazil");
+    /** @type {number} */
+    a = -81.45;
+    create(-.50524 * a, a, 2.18847 * a, -25, -10, "Brazil");
+    click([ 47, 122 ], pos[ 5 ], 40, 2e3, "Europe");
+
+    a = 168.7;
+    drawCircle(-.54608 * a, a, -.32812 * a, 71, 28, "Europe");
+    _init(-.54608 * a, a, -.32812 * a, 71, 28, "Europe");
+    parseNode(-.54608 * a, a, -.32812 * a, 71, 28, "Europe");
+    /** @type {number} */
+    a = 168.8;
+    create(-.54608 * a, a, -.32812 * a, 71, 28, "Europe");
+    click([ 44, 115 ], pos[ 6 ], 25, 2500, "America");
+    click([ 48, 115 ], pos[ 7 ], 25, 2500, "Mexico");
+
+    a = 117.84;
+    drawCircle(1.363 * a, a, -.1531 * a, -95, 56, "America");
+    _init(1.363 * a, a, -.1531 * a, -95, 56, "America");
+    parseNode(1.363 * a, a, -.1531 * a, -95, 56, "America");
+    /** @type {number} */
+    a = 117.94;
+    create(1.363 * a, a, -.1531 * a, -95, 56, "America");
+
+    a = 84.8;
+    drawCircle(1.944 * a, a, -.906 * a, -130, 55, "Mexico");
+    _init(1.944 * a, a, -.906 * a, -130, 55, "Mexico");
+    parseNode(1.944 * a, a, -.906 * a, -130, 55, "Mexico");
+    /** @type {number} */
+    a = 85;
+    create(1.944 * a, a, -.906 * a, -130, 55, "Mexico");
+    click([ 42, 118 ], pos[ 8 ], 25, 2500, "Australia");
+    click([ 43, 115 ], pos[ 9 ], 25, 500, "Japan");
+
+    a = -123.3;
+    drawCircle(-.011169456089179526 * a, a, -1.279892895937685 * a, 40, 0, "Australia");
+    _init(-.011169456089179526 * a, a, -1.279892895937685 * a, 40, 0, "Australia");
+    parseNode(-.011169456089179526 * a, a, -1.279892895937685 * a, 40, 0, "Australia");
+    create(-.011169456089179526 * a, a, -1.279892895937685 * a, 40, 0, "Australia");
+    reset([ 44, 122 ], pos[ 10 ], 1500, "Chile");
+
+    a = 123.2;
+    drawCircle(-.0892842148600894 * a, a, 1.2768237587066977 * a, -40, -2, "Japan");
+    _init(-.0892842148600894 * a, a, 1.2768237587066977 * a, -40, -2, "Japan");
+    parseNode(-.0892842148600894 * a, a, 1.2768237587066977 * a, -40, -2, "Japan");
+    /** @type {number} */
+    a = 123.3;
+    create(-.0892842148600894 * a, a, 1.2768237587066977 * a, -40, -2, "Japan");
+
+    a = -105;
+    drawCircle(-.8952380952380953 * a, a, 1.3515423288475528 * a, -35, -30, "Chile");
+    _init(-.8952380952380953 * a, a, 1.3515423288475528 * a, -35, -30, "Chile");
+    parseNode(-.8952380952380953 * a, a, 1.3515423288475528 * a, -35, -30, "Chile");
+    /** @type {number} */
+    a = -105.2;
+    create(-.8952380952380953 * a, a, 1.3515423288475528 * a, -35, -30, "Chile");
+    reset([ 49, 122 ], pos[ 11 ], 1e3, "Colombia");
+
+    a = 17;
+    drawCircle(7.117647058823529 * a, a, -9.31382868879875 * a, 10, -40, "Colombia");
+    _init(7.117647058823529 * a, a, -9.31382868879875 * a, 10, -40, "Colombia");
+    parseNode(7.117647058823529 * a, a, -9.31382868879875 * a, 10, -40, "Colombia");
+    /** @type {number} */
+    a = 17.1;
+    create(7.117647058823529 * a, a, -9.31382868879875 * a, 10, -40, "Colombia");
+
+    var value = 147;
+    reset([ 49.5, 118 ], pos[ 12 ], 1e3, "CostaRica");
+    /** @type {number} */
+    a = 35;
+    drawCircle(value, a, -Math.sqrt(18391 - a * a), 10, -50, "CostaRica");
+    _init(value, a, -Math.sqrt(18391 - a * a), 10, -50, "CostaRica");
+    parseNode(value, a, -Math.sqrt(18391 - a * a), 10, -50, "CostaRica");
+    /** @type {number} */
+    a = 35.1;
+    create(value, a, -Math.sqrt(18391 - a * a), 10, -50, "CostaRica");
+  }
+
+
+  function drawCircle(y, scale, center, angle, value, country) {
+    /** @type {null} */
+    var line = null;
+    var geometry = new THREE.CircleGeometry(15, 64);
+    var material = new THREE.LineBasicMaterial({
+      color: '#C60224'
+    });
+    geometry.vertices.shift();
+    line = new THREE.LineLoop(geometry, material);
+    line.position.set(y, scale, center);
+    line.rotation.x = THREE.Math.degToRad(angle);
+    line.rotation.y = THREE.Math.degToRad(value);
+    line.name = "hollow-circle " + country;
+    scene.add(line);
+  }
+
+  function addLogo(px, py, pz, rx, ry, rz) {
+    const textureLoader = new THREE.TextureLoader()
+    // const texture = textureLoader.load('dist/img/world_image_nansha.jpg');
+    const texture = textureLoader.load('dist/img/mylogo.jpg');
+    let geometry = new THREE.CircleGeometry(20, 32);
+    var m = new THREE.MeshBasicMaterial({
+      map: texture,
+      overdraw: .5,
+      transparent: true,
+      side: THREE.DoubleSide
+    });
+    var r = new THREE.Mesh(geometry, m);
+    r.position.set(px, py, pz);
+    r.rotation.x = THREE.Math.degToRad(rx);
+    r.rotation.y = THREE.Math.degToRad(ry);
+    r.rotation.z = THREE.Math.degToRad(rz);
+    r.name = "logo";
+    scene.add(r);
+  }
+
+  function parseNode(str, file, data, t, value, country) {
+    var group = new THREE.CircleGeometry(20, 32);
+    var m = new THREE.MeshBasicMaterial({
+      color: '#C60224',
+      transparent: true,
+      opacity: 0,
+      side: THREE.DoubleSide
+    });
+    var r = new THREE.Mesh(group, m);
+    r.position.set(str, file, data);
+    r.rotation.x = THREE.Math.degToRad(t);
+    r.rotation.y = THREE.Math.degToRad(value);
+    r.name = "large-circle target=" + country;
+    scene.add(r);
+  }
+
+
+  function create(array, html, id, angle, value, country) {
+    /**
+     * @return {undefined}
+     */
+    function add() {
+      occlusion = occlusion + .01;
+      if (occlusion > 2) {
+        /** @type {number} */
+        occlusion = 1;
+      }
+      body.scale.x = occlusion;
+      body.scale.y = occlusion;
+      /** @type {number} */
+      body.material.opacity = type && type === country ? .3 : node && node === country ? .3 : 0;
+      requestAnimationFrame(add);
+    }
+
+    var bodyGeom = new THREE.CircleGeometry(5, 40);
+    var bodyMat = new THREE.MeshBasicMaterial({
+      color: '#C60224',
+      transparent: true,
+      opacity: 0,
+      side: THREE.DoubleSide
+    });
+    var body = new THREE.Mesh(bodyGeom, bodyMat);
+    body.position.set(array, html, id);
+    body.rotation.x = THREE.Math.degToRad(angle);
+    body.rotation.y = THREE.Math.degToRad(value);
+    /** @type {string} */
+    body.name = "twinklin-light target=" + country;
+    scene.add(body);
+    /** @type {number} */
+    var occlusion = 1;
+    add();
+  }
+
+  function _init(height, html, option, data, value, title) {
+    var t = new THREE.CircleGeometry(5, 32);
+    var m = new THREE.MeshBasicMaterial({
+      color: '#C60224',
+      side: THREE.DoubleSide
+    });
+    var r = new THREE.Mesh(t, m);
+    r.position.set(height, html, option);
+    r.rotation.x = THREE.Math.degToRad(data);
+    r.rotation.y = THREE.Math.degToRad(value);
+    /** @type {string} */
+    r.name = "solid-circle target=" + title;
+    scene.add(r);
+  }
+
+  function createAutoComplete(config) {
+    var rotateAxisVector = {};
+    var previousReading = {};
+    var unitCube = {};
+    var length = void 0;
+    var d = void 0;
+    var scale = void 0;
+    switch (config) {
+      case "CostaRica":
+        /** @type {number} */
+        length = 200;
+        rotateAxisVector = {
+          x: -1.2 * length,
+          y: length,
+          z: -.2 * length
+        };
+        /** @type {number} */
+        d = 177;
+        previousReading = {
+          x: d,
+          y: 2.2 * d,
+          z: -.5 * d
+        };
+        /** @type {number} */
+        scale = 41.7;
+        unitCube = {
+          x: 3.4 * scale,
+          y: -1e-5 * scale,
+          z: -3.2 * scale
+        };
+        break;
+      case "Colombia":
+        /** @type {number} */
+        length = 200;
+        rotateAxisVector = {
+          x: -1.2 * length,
+          y: length,
+          z: -.2 * length
+        };
+        /** @type {number} */
+        d = 170;
+        previousReading = {
+          x: -.3 * d,
+          y: 1.75 * d,
+          z: -.5 * d
+        };
+        /** @type {number} */
+        scale = 60;
+        unitCube = {
+          x: scale,
+          y: 2.8 * scale,
+          z: -3.2 * scale
+        };
+        break;
+      case "Chile":
+        /** @type {number} */
+        length = 190;
+        rotateAxisVector = {
+          x: -1.3472 * length,
+          y: length,
+          z: -.1773 * length
+        };
+        /** @type {number} */
+        d = 180;
+        previousReading = {
+          x: -1 * d,
+          y: 1.5 * d,
+          z: -.1773 * d
+        };
+        /** @type {number} */
+        scale = 50;
+        unitCube = {
+          x: -1.2762 * scale,
+          y: scale,
+          z: -7.2133 * scale
+        };
+        break;
+      case "Brazil":
+        /** @type {number} */
+        length = 190;
+        rotateAxisVector = {
+          x: -1.3472 * length,
+          y: length,
+          z: -.1773 * length
+        };
+        /** @type {number} */
+        d = 180;
+        previousReading = {
+          x: -1.3472 * d,
+          y: d,
+          z: -.1773 * d
+        };
+        /** @type {number} */
+        scale = 30;
+        unitCube = {
+          x: -6.2762 * scale,
+          y: scale,
+          z: -9.2133 * scale
+        };
+        break;
+      case "Mexico":
+        /** @type {number} */
+        length = 210;
+        rotateAxisVector = {
+          x: .429 * length,
+          y: length,
+          z: .225 * length
+        };
+        /** @type {number} */
+        d = 200;
+        previousReading = {
+          x: .046 * d,
+          y: d,
+          z: .511 * d
+        };
+        /** @type {number} */
+        scale = 167;
+        unitCube = {
+          x: .8864 * scale,
+          y: scale,
+          z: -.1169 * scale
+        };
+        break;
+      default:
+        unitCube = {};
+    }
+    return {
+      topPointer: rotateAxisVector,
+      secondDot: previousReading,
+      fourDot: unitCube
+    };
+  }
+
+  function center(params, value, length) {
+    var l = params.v0x;
+    var minimap_selfCharacter_zone_y = params.v0y;
+    var t = params.v0z;
+    var m = value.v2x;
+    var minimap_character_zone_y = value.v2y;
+    var x = value.v2z;
+    /** @type {number} */
+    var max = (l + m) / 2;
+    /** @type {number} */
+    var i = (minimap_selfCharacter_zone_y + minimap_character_zone_y) / 2;
+    /** @type {number} */
+    var v0 = (t + x) / 2;
+    /** @type {number} */
+    var psisq = Math.sqrt(Math.pow(m - l, 2) + Math.pow(minimap_character_zone_y - minimap_selfCharacter_zone_y, 2) + Math.pow(x - t, 2));
+    /** @type {number} */
+    var d = Math.pow(psisq, 2) / (Math.pow(max, 2) + Math.pow(i, 2) + Math.pow(v0, 2));
+    /** @type {boolean} */
+    var f = false;
+    if (d > 3 && d < 10) {
+      /** @type {number} */
+      d = 2;
+    } else {
+      if (d > 10) {
+        /** @type {number} */
+        d = 14;
+        /** @type {boolean} */
+        f = true;
+      }
+    }
+    /** @type {number} */
+    var n = max + d * max / 2;
+    /** @type {number} */
+    var e = i + d * i / 2;
+    /** @type {number} */
+    var vc = v0 + d * v0 / 2;
+    return "Mexico" === length && (n = max + d * max * .7, e = i + d * i * .7, vc = v0 + d * v0 * .7), "Brazil" === length && (n = max + d * max * .4, e = i + d * i * .4, vc = v0 + d * v0 * .4), f && (n = n - 250, e = e -
+      50, vc = vc - 20), {
+      v1x: n,
+      v1y: e,
+      v1z: vc
+    };
+  }
+
+  function set(x, y, m, d, name) {
+    var MinimumContentImageWidthToArticleWidthRatio = 0;
+    var s = 200 * Math.sin(x / 180 * Math.PI);
+    MinimumContentImageWidthToArticleWidthRatio = 200 * Math.cos(x / 180 * Math.PI);
+    var maximumImageArea = Math.cos(y / 180 * Math.PI) * MinimumContentImageWidthToArticleWidthRatio;
+    var maxDistanceToConsiderSimilar = Math.sin(y / 180 * Math.PI) * MinimumContentImageWidthToArticleWidthRatio;
+    var u = 200 * Math.sin(m / 180 * Math.PI);
+    MinimumContentImageWidthToArticleWidthRatio = 200 * Math.cos(m / 180 * Math.PI);
+    var topBottomIgnoreDistance = Math.cos(d / 180 * Math.PI) * MinimumContentImageWidthToArticleWidthRatio;
+    var imageMinimumWidth = Math.sin(d / 180 * Math.PI) * MinimumContentImageWidthToArticleWidthRatio;
+    var c = center({
+      v0x: maximumImageArea,
+      v0y: s,
+      v0z: maxDistanceToConsiderSimilar
+    }, {
+      v2x: topBottomIgnoreDistance,
+      v2y: u,
+      v2z: imageMinimumWidth
+    }, name);
+    return {
+      v0x: maximumImageArea,
+      v0y: s,
+      v0z: maxDistanceToConsiderSimilar,
+      v1x: c.v1x,
+      v1y: c.v1y,
+      v1z: c.v1z,
+      v2x: topBottomIgnoreDistance,
+      v2y: u,
+      v2z: imageMinimumWidth
+    };
+  }
+
+  var t = new THREE.SphereGeometry(3, 20, 20);
+  var multiply = new THREE.MeshBasicMaterial({
+    color: '#C60224'
+  });
+
+  function translate(x, s, v) {
+    var n = new THREE.Mesh(t, multiply);
+    n.position.set(x.x, x.y, x.z);
+    scene.add(n);
+    /** @type {number} */
+    var i = 0;
+    /** @type {number} */
+    initializeCheckTimer = setInterval(function () {
+      i++;
+      if (i > s) {
+        /** @type {number} */
+        i = 0;
+      } else {
+        n.position.set(v[ i ].x, v[ i ].y, v[ i ].z);
+      }
+    }, 50);
+  }
+
+  function click(e, f) {
+    var type = arguments.length > 2 && void 0 !== arguments[ 2 ] ? arguments[ 2 ] : 20;
+    var ngiScroll_timeout = arguments.length > 3 && void 0 !== arguments[ 3 ] ? arguments[ 3 ] : 0;
+    var callbacks = arguments[ 4 ];
+    setTimeout(function () {
+      return parse(e, f, type, callbacks);
+    }, ngiScroll_timeout);
+  }
+
+  function parse(m, data, name, value) {
+    /**
+     * @return {undefined}
+     */
+    function checkForToolTips() {
+      if (!isStop) {
+        /** @type {number} */
+        i = (i + 1) % n;
+        if (0 !== i) {
+          line.geometry.setDrawRange(0, i);
+          requestAnimationFrame(checkForToolTips);
+        } else {
+          translate({
+            x: offset.v0x,
+            y: offset.v0y,
+            z: offset.v0z
+          }, name, h);
+        }
+      }
+    }
+
+    /** @type {number} */
+    var i = 0;
+    /** @type {number} */
+    var n = 200;
+    /** @type {null} */
+    var line = null;
+    var node = new THREE.QuadraticBezierCurve3;
+    var offset = set(m[ 0 ], m[ 1 ], data[ 0 ], data[ 1 ], value);
+    node.v0 = new THREE.Vector3(offset.v0x, offset.v0y, offset.v0z);
+    node.v1 = new THREE.Vector3(offset.v1x, offset.v1y, offset.v1z);
+    node.v2 = new THREE.Vector3(offset.v2x, offset.v2y, offset.v2z);
+    var h = node.getPoints(name);
+    var path2 = node.getPoints(n);
+    var geometry = new THREE.BufferGeometry;
+    /** @type {!Float32Array} */
+    var line_positions = new Float32Array(3 * n);
+    geometry.addAttribute("position", new THREE.BufferAttribute(line_positions, 3));
+    /** @type {number} */
+    i = 2;
+    geometry.setDrawRange(0, i);
+    var linematerial = new THREE.LineBasicMaterial({
+      color: '#C60224',
+      linewidth: 1
+    });
+    line = new THREE.Line(geometry, linematerial);
+    (function (e, vertexes) {
+      var p = line.geometry.attributes.position.array;
+      /** @type {number} */
+      var n = 0;
+      /** @type {number} */
+      var i = 0;
+      /** @type {number} */
+      var ub = e;
+      for (; i < ub; i++) {
+        p[ n++ ] = vertexes[ i ].x;
+        p[ n++ ] = vertexes[ i ].y;
+        p[ n++ ] = vertexes[ i ].z;
+      }
+    })(n, path2);
+    scene.add(line);
+    checkForToolTips();
+  }
+
+  /**
+   * @return {undefined}
+   */
+  var scroll = function () {
+    /** @type {boolean} */
+    de = true;
+  };
+  var onMouseOut = function () {
+    /** @type {boolean} */
+    de = false;
+    onMouseUp();
+  };
+  var PI_HALF = Math.PI / 2;
+
+  function move(event) {
+    if (event.preventDefault(), me) {
+      var touches = event.changedTouches;
+      /** @type {number} */
+      var i = 0;
+      for (; i < touches.length; i++) {
+        /** @type {number} */
+        mouse.x = -touches[ i ].pageX;
+        mouse.y = touches[ i ].pageY;
+      }
+      /** @type {number} */
+      var t = j / 1e3;
+      target.x = p.x + .005 * (mouse.x - pos.x) * t;
+      target.y = p.y + .005 * (mouse.y - pos.y) * t;
+      target.y = target.y > PI_HALF ? PI_HALF : target.y;
+      target.y = target.y < -PI_HALF ? -PI_HALF : target.y;
+    }
+    return false;
+  }
+
+  function onMouseMove(event) {
+    if (me) {
+      /** @type {number} */
+      mouse.x = -event.clientX;
+      mouse.y = event.clientY;
+      /** @type {number} */
+      var t = j / 1e3;
+      target.x = p.x + .005 * (mouse.x - pos.x) * t;
+      target.y = p.y + .005 * (mouse.y - pos.y) * t;
+      target.y = target.y > PI_HALF ? PI_HALF : target.y;
+      target.y = target.y < -PI_HALF ? -PI_HALF : target.y;
+    } else {
+      update(event);
+    }
+  }
+
+  function abs(url) {
+    /** @type {boolean} */
+    type = url;
+  }
+
+  function update(event) {
+  }
+
+  function getDistance() {
+    /** @type {string} */
+    type = "";
+  }
+
+  function resize() {
+    setTimeout(function () {
+      var w = width();
+      /** @type {number} */
+      camera.aspect = w / w;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, w);
+    }, 300);
+  }
+
+  function onMouseDown(event) {
+    event.preventDefault();
+    /** @type {boolean} */
+    me = true;
+    container.addEventListener("mouseup", onMouseUp, false);
+    /** @type {number} */
+    pos.x = -event.clientX;
+    pos.y = event.clientY;
+    p.x = target.x;
+    p.y = target.y;
+    /** @type {string} */
+    container.style.cursor = "move";
+  }
+
+  function onMouseUp() {
+    me = false;
+    container.removeEventListener("mouseup", onMouseUp, false);
+    container.style.cursor = "auto";
+  }
+
+  var getMousePosition = function (dom, x, y) {
+    var rect = dom.getBoundingClientRect();
+    return [ (x - rect.left) / rect.width, (y - rect.top) / rect.height ];
+  }
+
+  function width() {
+    if (window.innerWidth < 960) {
+      if (!container) {
+        return;
+      }
+      return window.innerWidth;
+    }
+    return .454 * window.innerWidth;
+  }
+  function reset(object, args) {
+    var ngiScroll_timeout = arguments.length > 2 && void 0 !== arguments[ 2 ] ? arguments[ 2 ] : 0;
+    var value = arguments[ 3 ];
+    var parser = new THREE.Geometry;
+    var curve = new THREE.QuadraticBezierCurve3;
+    var p2 = set(object[ 0 ], object[ 1 ], args[ 0 ], args[ 1 ], value);
+    curve.v0 = new THREE.Vector3(p2.v0x, p2.v0y, p2.v0z);
+    curve.v1 = new THREE.Vector3(p2.v1x, p2.v1y, p2.v1z);
+    curve.v2 = new THREE.Vector3(p2.v2x, p2.v2y, p2.v2z);
+    /** @type {number} */
+    for (var i = 0; i <= 40; i++) {
+      parser.vertices.push(curve.getPoint(i / 40));
+    }
+    var node = createAutoComplete(value);
+    var nodes = parser.vertices;
+    setTimeout(function () {
+      return renderLine(nodes[ 0 ], node.secondDot, node.topPointer, node.fourDot, nodes[ 40 ]);
+    }, ngiScroll_timeout);
+  }
+
+  var isStop = false;
+
+  function renderLine(pos, scale, name, n, start) {
+    function checkForToolTips() {
+      if (!isStop) {
+        /** @type {number} */
+        a = (a + 1) % b;
+        if (0 !== a) {
+          line.geometry.setDrawRange(0, a);
+          requestAnimationFrame(checkForToolTips);
+        } else {
+          translate(pos, id, m);
+        }
+      }
+    }
+
+    /** @type {number} */
+    var a = 0;
+    /** @type {number} */
+    var b = 300;
+    /** @type {null} */
+    var line = null;
+    var inner = new THREE.CubicBezierCurve3(new THREE.Vector3(pos.x, pos.y, pos.z), new THREE.Vector3(scale.x, scale.y, scale.z), new THREE.Vector3(n.x, n.y, n.z), new THREE.Vector3(start.x, start.y, start.z));
+    /** @type {number} */
+    var id = 50;
+    var m = inner.getPoints(id);
+    var item = inner.getPoints(b);
+    var geometry = new THREE.BufferGeometry;
+    /** @type {!Float32Array} */
+    var line_positions = new Float32Array(3 * b);
+    geometry.addAttribute("position", new THREE.BufferAttribute(line_positions, 3));
+    /** @type {number} */
+    a = 2;
+    geometry.setDrawRange(0, a);
+    var linematerial = new THREE.LineBasicMaterial({
+      color: '#C60224',
+      linewidth: 1
+    });
+    line = new THREE.Line(geometry, linematerial);
+    (function (type, data) {
+      var p = line.geometry.attributes.position.array;
+      /** @type {number} */
+      var n = 0;
+      /** @type {number} */
+      var id = 0;
+      /** @type {number} */
+      var graphTypeBaseName = type;
+      for (; id < graphTypeBaseName; id++) {
+        p[ n++ ] = data[ id ].x;
+        p[ n++ ] = data[ id ].y;
+        p[ n++ ] = data[ id ].z;
+      }
+    })(b, item);
+    scene.add(line)
+    checkForToolTips();
+
+  }
+
+  // 画地球
+  function drawGlobe() {
+    const textureLoader = new THREE.TextureLoader()
+    const texture = textureLoader.load('dist/img/world.jpg');
+    const material = new THREE.MeshBasicMaterial({
+      map: texture,
+      overdraw: .5,
+      transparent: true,
+      side: THREE.DoubleSide
+    });
+    var sphereGeometry = new THREE.SphereGeometry(200, 40, 30);
+    mesh = new THREE.Mesh(sphereGeometry, material);
+    mesh.name = "scene";
+    mesh.rotation.y = .7 * Math.PI;
+    mesh.receiveShadow = true;
+    mesh.castShadow = true;
+    scene.add(mesh);
+  }
+
+
+  var step = 0;
+  // var a = 138.68;
+
+  var viewX = 0;
+  var x = 1e3;
+  var j = 1e3;
+
+  function applyForEach(viewX) {
+    /** @type {number} */
+    x = x - viewX;
+    x = x > 1e3 ? 1e3 : x;
+    x = x < 350 ? 350 : x;
+  }
+
+  var rotation = {
+    x: 0,
+    y: 0
+  };
+  var target = {
+    x: 2.1 * Math.PI,
+    y: Math.PI / 4.5
+  };
+  var be = 0;
+  var we = true;
+
+  function render() {
+    applyForEach(viewX);
+
+    if (we) {
+      if (be === target.x + target.y) {
+        target.x -= .005;
+      } else {
+        be = target.x + target.y;
+      }
+      rotation.x += .1 * (target.x - rotation.x);
+      rotation.y += .1 * (target.y - rotation.y);
+      j = j + .3 * (x - j);
+      /** @type {number} */
+      camera.position.x = j * Math.sin(rotation.x) * Math.cos(rotation.y);
+      /** @type {number} */
+      camera.position.y = j * Math.sin(rotation.y);
+      /** @type {number} */
+      camera.position.z = j * Math.cos(rotation.x) * Math.cos(rotation.y);
+    }
+    // mesh.material.uniforms.time.value += 0.1;
+    camera.lookAt(mesh.position);
+    // requestAnimationFrame(render);
+    renderer.render(scene, camera);
+  }
+
+  function animation() {
+    if (!isStop) {
+      requestAnimationFrame(animation);
+      render();
+    }
+  }
+
+  //确保init方法在网页加载完毕后被调用
+  window.onload = init;
+  animation()
+</script>
+</body>
+</html>
